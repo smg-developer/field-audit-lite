@@ -1,4 +1,5 @@
 import 'package:field_audit_lite/features/audits/presentation/providers/audit_provider.dart';
+import 'package:field_audit_lite/features/audits/presentation/screens/add_audit_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -13,7 +14,13 @@ class AuditListScreen extends ConsumerWidget {
       appBar: AppBar(title: const Text('Field Audits')),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // We'll navigate to AddAuditScreen here
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (ctx) {
+                return AddAuditScreen();
+              },
+            ),
+          );
         },
         child: const Icon(Icons.add, color: Colors.black),
       ),
