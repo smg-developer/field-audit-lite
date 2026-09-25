@@ -35,4 +35,12 @@ class AuditNotifier extends AsyncNotifier<List<Audit>> {
 
     state = AsyncData(audits);
   }
+
+  Future<void> updateAudit(Audit audit) async {
+    await _repository.saveAudit(audit);
+
+    final audits = await _repository.getAudits();
+
+    state = AsyncData(audits);
+  }
 }

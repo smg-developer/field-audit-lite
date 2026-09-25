@@ -8,6 +8,7 @@ class AuditModel extends Audit {
     required super.totalItems,
     required super.completedItems,
     required super.isSynced,
+    required super.checklist,
   });
 
   factory AuditModel.fromJson(Map<String, dynamic> json) {
@@ -18,6 +19,7 @@ class AuditModel extends Audit {
       totalItems: json['totalItems'] as int,
       completedItems: json['completedItems'] as int,
       isSynced: json['isSynced'] as bool,
+      checklist: List<bool>.from(json['checklist'] as List),
     );
   }
 
@@ -29,6 +31,7 @@ class AuditModel extends Audit {
       'totalItems': totalItems,
       'completedItems': completedItems,
       'isSynced': isSynced,
+      'checklist': checklist,
     };
   }
 }

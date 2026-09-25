@@ -1,24 +1,26 @@
+import 'package:field_audit_lite/features/audits/presentation/providers/audit_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../domain/entities/audit.dart';
 
-class AuditDetailScreen extends StatefulWidget {
+class AuditDetailScreen extends ConsumerStatefulWidget {
   final Audit audit;
 
   const AuditDetailScreen({super.key, required this.audit});
 
   @override
-  State<AuditDetailScreen> createState() => _AuditDetailScreenState();
+  ConsumerState<AuditDetailScreen> createState() => _AuditDetailScreenState();
 }
 
-class _AuditDetailScreenState extends State<AuditDetailScreen> {
+class _AuditDetailScreenState extends ConsumerState<AuditDetailScreen> {
   late List<bool> checklist;
 
   @override
   void initState() {
     super.initState();
 
-    checklist = List<bool>.filled(widget.audit.totalItems, false);
+    checklist = List<bool>.from(widget.audit.checklist);
   }
 
   @override
@@ -46,10 +48,28 @@ class _AuditDetailScreenState extends State<AuditDetailScreen> {
             (index) => CheckboxListTile(
               title: Text('Checklist Item ${index + 1}'),
               value: checklist[index],
-              onChanged: (value) {
+              onChanged: (value) async {
+                final updatedChecklist = List<bool>.from(checklist);
+
+                updatedChecklist[index] = value ?? false;
+
                 setState(() {
-                  checklist[index] = value ?? false;
+                  checklist = updatedChecklist;
                 });
+
+                final updatedAudit = Audit(
+                  id: widget.audit.id,
+                  title: widget.audit.title,
+                  siteName: widget.audit.siteName,
+                  totalItems: widget.audit.totalItems,
+                  completedItems: updatedChecklist.where((item) => item).length,
+                  isSynced: false,
+                  checklist: updatedChecklist,
+                );
+
+                await ref
+                    .read(auditsProvider.notifier)
+                    .updateAudit(updatedAudit);
               },
             ),
           ),

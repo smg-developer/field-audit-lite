@@ -22,6 +22,7 @@ class AuditRepoImpl implements AuditRepository {
       totalItems: audit.totalItems,
       completedItems: audit.completedItems,
       isSynced: audit.isSynced,
+      checklist: audit.checklist
     );
 
     return localDataSource.saveAudit(model);
