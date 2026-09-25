@@ -1,5 +1,6 @@
 import 'package:field_audit_lite/features/audits/presentation/providers/audit_provider.dart';
 import 'package:field_audit_lite/features/audits/presentation/screens/add_audit_screen.dart';
+import 'package:field_audit_lite/features/audits/presentation/screens/audit_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -47,6 +48,15 @@ class AuditListScreen extends ConsumerWidget {
                 trailing: Icon(
                   audit.isSynced ? Icons.cloud_done : Icons.cloud_off,
                 ),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (ctx) {
+                        return AuditDetailScreen(audit: audit);
+                      },
+                    ),
+                  );
+                },
               );
             },
           );
