@@ -6,7 +6,6 @@ class AuditModel extends Audit {
     required super.siteName,
     required super.title,
     required super.totalItems,
-    required super.completedItems,
     required super.isSynced,
     required super.checklist,
   });
@@ -17,7 +16,6 @@ class AuditModel extends Audit {
       title: json['title'] as String,
       siteName: json['siteName'] as String,
       totalItems: json['totalItems'] as int,
-      completedItems: json['completedItems'] as int,
       isSynced: json['isSynced'] as bool,
       checklist: List<bool>.from(json['checklist'] as List),
     );
@@ -29,7 +27,6 @@ class AuditModel extends Audit {
       'title': title,
       'siteName': siteName,
       'totalItems': totalItems,
-      'completedItems': completedItems,
       'isSynced': isSynced,
       'checklist': checklist,
     };

@@ -43,7 +43,6 @@ class _AddAuditScreenState extends ConsumerState<AddAuditScreen> {
       title: _titleController.text.trim(),
       siteName: _siteController.text.trim(),
       totalItems: totalItems,
-      completedItems: 0,
       isSynced: false,
       checklist: List<bool>.filled(totalItems, false),
     );

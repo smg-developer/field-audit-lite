@@ -3,7 +3,6 @@ class Audit {
   final String siteName;
   final String title;
   final int totalItems;
-  final int completedItems;
   final bool isSynced;
   final List<bool> checklist;
 
@@ -12,10 +11,11 @@ class Audit {
     required this.siteName,
     required this.title,
     required this.totalItems,
-    required this.completedItems,
     required this.isSynced,
     required this.checklist,
   });
 
-  bool get isCompleted => completedItems == totalItems;
+  int get completedItems => checklist.where((item) => item).length;
+
+  bool get isCompleted => checklist.isNotEmpty && completedItems == totalItems;
 }

@@ -43,4 +43,12 @@ class AuditNotifier extends AsyncNotifier<List<Audit>> {
 
     state = AsyncData(audits);
   }
+
+  Future<void> deleteAudit(String id) async {
+    await _repository.deleteAudit(id);
+
+    final audits = await _repository.getAudits();
+
+    state = AsyncData(audits);
+  }
 }

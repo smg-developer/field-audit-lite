@@ -20,11 +20,15 @@ class AuditRepoImpl implements AuditRepository {
       title: audit.title,
       siteName: audit.siteName,
       totalItems: audit.totalItems,
-      completedItems: audit.completedItems,
       isSynced: audit.isSynced,
-      checklist: audit.checklist
+      checklist: audit.checklist,
     );
 
     return localDataSource.saveAudit(model);
+  }
+
+  @override
+  Future<void> deleteAudit(String id) async {
+    return localDataSource.deleteAudit(id);
   }
 }

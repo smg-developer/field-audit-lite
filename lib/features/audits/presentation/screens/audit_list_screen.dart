@@ -39,24 +39,73 @@ class AuditListScreen extends ConsumerWidget {
             itemBuilder: (context, index) {
               final audit = audits[index];
 
-              return ListTile(
-                title: Text(audit.title),
-                subtitle: Text(
-                  '${audit.siteName} • '
-                  '${audit.completedItems}/${audit.totalItems} completed',
+              return Dismissible(
+                key: ValueKey(audit.id),
+                direction: DismissDirection.endToStart,
+                background: Container(
+                  alignment: Alignment.centerRight,
+                  padding: const EdgeInsets.only(right: 20),
+                  child: const Icon(Icons.delete),
                 ),
-                trailing: Icon(
-                  audit.isSynced ? Icons.cloud_done : Icons.cloud_off,
-                ),
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (ctx) {
-                        return AuditDetailScreen(audit: audit);
-                      },
-                    ),
+                confirmDismiss: (direction) async {
+                  return await showDialog<bool>(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text('Delete audit?'),
+                        content: Text(
+                          'Are you sure you want to delete "${audit.title}"?',
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context, false);
+                            },
+                            child: const Text('Cancel'),
+                          ),
+                          FilledButton(
+                            onPressed: () {
+                              Navigator.pop(context, true);
+                            },
+                            child: const Text('Delete'),
+                          ),
+                        ],
+                      );
+                    },
                   );
                 },
+                onDismissed: (direction) {
+                  ref.read(auditsProvider.notifier).deleteAudit(audit.id);
+                },
+
+                child: ListTile(
+                  title: Text(audit.title),
+                  subtitle: Text(
+                    '${audit.siteName} • '
+                    '${audit.completedItems}/${audit.totalItems} completed',
+                  ),
+                  trailing: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Icon(audit.isSynced ? Icons.cloud_done : Icons.cloud_off),
+                      const SizedBox(height: 4),
+                      Text(
+                        audit.isCompleted ? 'Completed' : 'In Progress',
+                        style: Theme.of(context).textTheme.labelSmall,
+                      ),
+                    ],
+                  ),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (ctx) {
+                          return AuditDetailScreen(audit: audit);
+                        },
+                      ),
+                    );
+                  },
+                ),
               );
             },
           );

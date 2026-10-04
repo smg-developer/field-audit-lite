@@ -39,4 +39,18 @@ class AuditLocalDataSource {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString(_auditsKey, jsonEncode(jsonList));
   }
+
+  Future<void> deleteAudit(String auditID) async {
+    final audits = await getAudits();
+
+    audits.removeWhere((auditItem) => auditItem.id == auditID);
+
+    final jsonList = audits
+        .map((audit) => (audit as AuditModel).toJson())
+        .toList();
+
+    final prefs = await SharedPreferences.getInstance();
+
+    await prefs.setString(_auditsKey, jsonEncode(jsonList));
+  }
 }
