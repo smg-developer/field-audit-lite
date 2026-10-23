@@ -5,7 +5,7 @@ import 'package:field_audit_lite/features/audits/domain/repositories/audit_repos
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 
-final auditsRepositoryProvider = Provider((ref) {
+final auditsRepositoryProvider = Provider<AuditRepository>((ref) {
   return AuditRepoImpl(localDataSource: AuditLocalDataSource());
 });
 
